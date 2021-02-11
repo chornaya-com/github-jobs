@@ -3,13 +3,17 @@ import {useFetchJobs} from "./useFetchJobs";
 import {Container} from "react-bootstrap";
 
 function App() {
-    const {jobs, loading, error} = useFetchJobs();
+    const [params, setParams] = React.useState({});
+    const [page, setPage] = React.useState({});
+    const {jobs, loading, error} = useFetchJobs(params, page);
 
   return (
     <Container>
         {loading && <h1>Loading...</h1>}
         {error && <h1>Error. Refresh the page.</h1>}
-        {<h1>{jobs.length}</h1>}
+        {jobs.map(job => {
+            return <Job key={job.id} job={job}/>
+        })}
     </Container>
   );
 }
