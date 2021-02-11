@@ -8,7 +8,7 @@ export function Job({job}) {
     return (
         <Card className="mb-4">
             <Card.Body>
-                <div className="d-flex justife-content-between">
+                <div className="d-flex justify-content-between">
                     <div>
                         <Card.Title>
                             {job.title} - <span className="text-muted font-weight-light">{job.company}</span>
