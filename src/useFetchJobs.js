@@ -30,41 +30,48 @@ function reducer(state, action) {
     }
 }
 
+function fetchJobs(page, params, dispatch) {
+    const cancelToken = axios.CancelToken.source();
+    const request = axios
+        .get(url, {
+            cancelToken: cancelToken.token,
+            params: {markdown: true, page: page, ...params}
+        })
+        .catch(error => {
+            if (!axios.isCancel(error)) {
+                return dispatch({type: ACTIONS.ERROR, payload: {error: error}})
+            }
+        });
+
+    return {
+        request,
+        cancel: () => {
+            cancelToken.cancel();
+        }
+    }
+}
+
 export function useFetchJobs(params, page) {
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
     React.useEffect(() => {
-        const cancelToken1 = axios.CancelToken.source();
         dispatch({type: ACTIONS.MAKE_REQUEST});
-        axios
-            .get(url, {
-                cancelToken: cancelToken1.token,
-                params: {markdown: true, page: page, ...params}
-            })
+
+        const currentPageJobs = fetchJobs(page, params, dispatch);
+        currentPageJobs.request
             .then(response => {
                 dispatch({type: ACTIONS.GET_DATA, payload: {jobs: response.data}})
-            })
-            .catch(error => {
-                if (axios.isCancel(error))
-                    return dispatch({type: ACTIONS.ERROR, payload: {error: error}})
             });
 
-        const cancelToken2 = axios.CancelToken.source();
-        axios
-            .get(url, {
-                cancelToken: cancelToken2.token,
-                params: {markdown: true, page: page + 1, ...params}
-            })
+        const nextPageJobs = fetchJobs(page, params, dispatch);
+        nextPageJobs.request
             .then(response => {
                 dispatch({type: ACTIONS.UPDATE_HAS_NEXT_PAGE, payload: {hasNextPage: response.data.length !== 0}})
-            })
-            .catch(error => {
-                if (axios.isCancel(error))
-                    return dispatch({type: ACTIONS.ERROR, payload: {error: error}})
             });
+
         return () => {
-            cancelToken1.cancel();
-            cancelToken2.cancel();
+            currentPageJobs.cancel();
+            nextPageJobs.cancel();
         }
     }, [params, page]);
 
