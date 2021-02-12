@@ -5,6 +5,12 @@
 GitHub Jobs is a web app for searching jobs based on GitHub Jobs API.
 Implemented with React, stylized with react-bootstrap, Firebase and Circle CI integration.
 
+##NOTE: 
+Uses external API. To avoid CORS issues use plugin or run browser without web security checks.
+```
+open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
+```
+
 [**Live demo**](https://github-jobs-861b5.web.app/)
 
 ![Preview](https://user-images.githubusercontent.com/61564546/107790967-4dca2400-6d4b-11eb-9fc4-e35048574081.png)
