@@ -1,5 +1,5 @@
 # GitHub Jobs Project
-[![CircleCI](https://circleci.com/gh/chornaya-com/github-jobs/tree/master.svg?style=svg&circle-token=63f6f27e841f7eff22bbd348eaee6daf742f2c66)](https://circleci.com/gh/chornaya-com/github-jobs/tree/master)
+[![CircleCI](https://circleci.com/gh/chornaya-com/github-jobs/tree/master.svg?style=svg)](https://circleci.com/gh/chornaya-com/github-jobs/tree/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#)
 
 GitHub Jobs is a web app for searching jobs based on GitHub Jobs API.
