@@ -13,7 +13,7 @@ const initialState = {
     loading: false
 }
 
-const url = "https://jobs.github.com/positions.json";
+const url = "https://us-central1-github-jobs-861b5.cloudfunctions.net/queryJobs";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -35,11 +35,11 @@ function fetchJobs(page, params, dispatch) {
     const request = axios
         .get(url, {
             cancelToken: cancelToken.token,
-            params: {markdown: true, page: page, ...params}
+            params: {page, ...params}
         })
         .catch(error => {
             if (!axios.isCancel(error)) {
-                return dispatch({type: ACTIONS.ERROR, payload: {error: error}})
+                return dispatch({type: ACTIONS.ERROR, payload: {error}})
             }
         });
 
@@ -60,12 +60,18 @@ export function useFetchJobs(params, page) {
         const currentPageJobs = fetchJobs(page, params, dispatch);
         currentPageJobs.request
             .then(response => {
+                if (!response) {
+                    return;
+                }
                 dispatch({type: ACTIONS.GET_DATA, payload: {jobs: response.data}})
             });
 
         const nextPageJobs = fetchJobs(page, params, dispatch);
         nextPageJobs.request
             .then(response => {
+                if (!response) {
+                    return;
+                }
                 dispatch({type: ACTIONS.UPDATE_HAS_NEXT_PAGE, payload: {hasNextPage: response.data.length !== 0}})
             });
 
