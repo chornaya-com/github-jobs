@@ -21,6 +21,7 @@ open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args
 - [x] circle ci setup
 - [x] axios for fetching data
 - [x] pagination
+- [x] serverless backend API
 
 ## How To
 ### Install Dependencies
